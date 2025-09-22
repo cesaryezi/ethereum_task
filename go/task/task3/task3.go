@@ -224,9 +224,11 @@ func (comment *Comment) AfterDelete(tx *gorm.DB) (err error) {
 	var db *gorm.DB
 	if post.CommentsCount > 0 {
 		post.CommentsCount--
-		db = tx.Model(&Post{}).Where("id = ?", comment.PostID).Update("comments_count", post.CommentsCount)
+		db = tx.Model(&Post{}).Where("id = ?", comment.PostID).Updates(map[string]interface{}{"comments_count": post.CommentsCount, "status": ""})
 	} else {
-		db = tx.Model(&Post{}).Where("id = ?", comment.PostID).Update("status", "无评论")
+		if post.Status != "无评论" {
+			db = tx.Model(&Post{}).Where("id = ?", comment.PostID).Update("status", "无评论")
+		}
 	}
 
 	if db.Error != nil {
