@@ -64,6 +64,7 @@ type Post struct {
 	User          User      `gorm:"foreignKey:UserID"`
 	Comments      []Comment `gorm:"foreignKey:PostID"`
 	CommentsCount int
+	Status        string
 }
 
 func (post *Post) Info() {
@@ -219,12 +220,17 @@ func (comment *Comment) AfterDelete(tx *gorm.DB) (err error) {
 
 	var post Post
 	tx.First(&post, comment.PostID)
+
+	var db *gorm.DB
 	if post.CommentsCount > 0 {
 		post.CommentsCount--
-		db := tx.Model(&Post{}).Where("id = ?", comment.PostID).Update("comments_count", post.CommentsCount)
-		if db.Error != nil {
-			return errors.New("rollback invalid op")
-		}
+		db = tx.Model(&Post{}).Where("id = ?", comment.PostID).Update("comments_count", post.CommentsCount)
+	} else {
+		db = tx.Model(&Post{}).Where("id = ?", comment.PostID).Update("status", "无评论")
+	}
+
+	if db.Error != nil {
+		return errors.New("rollback invalid op")
 	}
 
 	return nil
