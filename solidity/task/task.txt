@@ -1,0 +1,179 @@
+✅ 创建一个名为Voting的合约，包含以下功能：
+一个mapping来存储候选人的得票数
+一个vote函数，允许用户投票给某个候选人
+一个getVotes函数，返回某个候选人的得票数
+一个resetVotes函数，重置所有候选人的得票数
+
+✅ 反转字符串 (Reverse String)
+题目描述：反转一个字符串。输入 "abcde"，输出 "edcba"
+
+✅  用 solidity 实现整数转罗马数字
+题目描述在 https://leetcode.cn/problems/roman-to-integer/description
+✅  用 solidity 实现罗马数字转数整数
+题目描述在 https://leetcode.cn/problems/integer-to-roman/description/
+✅  合并两个有序数组 (Merge Sorted Array)
+题目描述：将两个有序数组合并为一个有序数组。
+✅  二分查找 (Binary Search)
+题目描述：在一个有序数组中查找目标值。
+
+
+
+
+
+
+
+
+
+
+✅ 作业 1：ERC20 代币
+任务：参考 openzeppelin-contracts/contracts/token/ERC20/IERC20.sol实现一个简单的 ERC20 代币合约。要求：
+合约包含以下标准 ERC20 功能：
+balanceOf：查询账户余额。
+transfer：转账。
+approve 和 transferFrom：授权和代扣转账。
+使用 event 记录转账和授权操作。
+提供 mint 函数，允许合约所有者增发代币。
+提示：
+使用 mapping 存储账户余额和授权信息。
+使用 event 定义 Transfer 和 Approval 事件。
+部署到sepolia 测试网，导入到自己的钱包
+✅ 作业2：在测试网上发行一个图文并茂的 NFT
+任务目标
+使用 Solidity 编写一个符合 ERC721 标准的 NFT 合约。
+将图文数据上传到 IPFS，生成元数据链接。
+将合约部署到以太坊测试网（如 Goerli 或 Sepolia）。
+铸造 NFT 并在测试网环境中查看。
+任务步骤
+编写 NFT 合约
+使用 OpenZeppelin 的 ERC721 库编写一个 NFT 合约。
+合约应包含以下功能：
+构造函数：设置 NFT 的名称和符号。
+mintNFT 函数：允许用户铸造 NFT，并关联元数据链接（tokenURI）。
+在 Remix IDE 中编译合约。
+准备图文数据
+准备一张图片，并将其上传到 IPFS（可以使用 Pinata 或其他工具）。
+创建一个 JSON 文件，描述 NFT 的属性（如名称、描述、图片链接等）。
+将 JSON 文件上传到 IPFS，获取元数据链接。
+JSON文件参考 https://docs.opensea.io/docs/metadata-standards
+部署合约到测试网
+在 Remix IDE 中连接 MetaMask，并确保 MetaMask 连接到 Goerli 或 Sepolia 测试网。
+部署 NFT 合约到测试网，并记录合约地址。
+铸造 NFT
+使用 mintNFT 函数铸造 NFT：
+在 recipient 字段中输入你的钱包地址。
+在 tokenURI 字段中输入元数据的 IPFS 链接。
+在 MetaMask 中确认交易。
+查看 NFT
+打开 OpenSea 测试网 或 Etherscan 测试网。
+连接你的钱包，查看你铸造的 NFT。
+
+✅ 作业3：编写一个讨饭合约
+任务目标
+使用 Solidity 编写一个合约，允许用户向合约地址发送以太币。
+记录每个捐赠者的地址和捐赠金额。
+允许合约所有者提取所有捐赠的资金。
+
+任务步骤
+编写合约
+创建一个名为 BeggingContract 的合约。
+合约应包含以下功能：
+一个 mapping 来记录每个捐赠者的捐赠金额。
+一个 donate 函数，允许用户向合约发送以太币，并记录捐赠信息。
+一个 withdraw 函数，允许合约所有者提取所有资金。
+一个 getDonation 函数，允许查询某个地址的捐赠金额。
+使用 payable 修饰符和 address.transfer 实现支付和提款。
+部署合约
+在 Remix IDE 中编译合约。
+部署合约到 Goerli 或 Sepolia 测试网。
+测试合约
+使用 MetaMask 向合约发送以太币，测试 donate 功能。
+调用 withdraw 函数，测试合约所有者是否可以提取资金。
+调用 getDonation 函数，查询某个地址的捐赠金额。
+任务要求
+合约代码：
+使用 mapping 记录捐赠者的地址和金额。
+使用 payable 修饰符实现 donate 和 withdraw 函数。
+使用 onlyOwner 修饰符限制 withdraw 函数只能由合约所有者调用。
+测试网部署：
+合约必须部署到 Goerli 或 Sepolia 测试网。
+功能测试：
+确保 donate、withdraw 和 getDonation 函数正常工作。
+
+提交内容
+合约代码：提交 Solidity 合约文件（如 BeggingContract.sol）。
+合约地址：提交部署到测试网的合约地址。
+测试截图：提交在 Remix 或 Etherscan 上测试合约的截图。
+
+额外挑战（可选）
+捐赠事件：添加 Donation 事件，记录每次捐赠的地址和金额。
+捐赠排行榜：实现一个功能，显示捐赠金额最多的前 3 个地址。
+时间限制：添加一个时间限制，只有在特定时间段内才能捐赠。
+
+
+
+
+
+
+
+
+
+✅  大作业：实现一个 NFT 拍卖市场
+任务目标
+使用 Hardhat 框架开发一个 NFT 拍卖市场。
+使用 Chainlink 的 feedData 预言机功能，计算 ERC20 和以太坊到美元的价格。
+使用 UUPS/透明代理模式实现合约升级。
+使用类似于 Uniswap V2 的工厂模式管理每场拍卖。
+
+
+任务步骤
+项目初始化
+使用 Hardhat 初始化项目：
+npx hardhat init
+安装必要的依赖：
+  npm install @openzeppelin/contracts @chainlink/contracts @nomiclabs/hardhat-ethers hardhat-deploy
+实现 NFT 拍卖市场
+NFT 合约：
+使用 ERC721 标准实现一个 NFT 合约。
+支持 NFT 的铸造和转移。
+拍卖合约：
+实现一个拍卖合约，支持以下功能：
+创建拍卖：允许用户将 NFT 上架拍卖。
+出价：允许用户以 ERC20 或以太坊出价。
+结束拍卖：拍卖结束后，NFT 转移给出价最高者，资金转移给卖家。
+工厂模式：
+使用类似于 Uniswap V2 的工厂模式，管理每场拍卖。
+工厂合约负责创建和管理拍卖合约实例。
+集成 Chainlink 预言机
+价格计算：
+使用 Chainlink 的 feedData 预言机，获取 ERC20 和以太坊到美元的价格。
+在拍卖合约中，将出价金额转换为美元，方便用户比较。
+跨链拍卖：
+使用 Chainlink 的 CCIP 功能，实现 NFT 跨链拍卖。
+允许用户在不同链上参与拍卖。
+合约升级
+UUPS/透明代理：
+使用 UUPS 或透明代理模式实现合约升级。
+确保拍卖合约和工厂合约可以安全升级。
+测试与部署
+测试：
+编写单元测试和集成测试，覆盖所有功能。
+部署：
+使用 Hardhat 部署脚本，将合约部署到测试网（如 Goerli 或 Sepolia）。
+任务要求
+代码质量：
+代码清晰、规范，符合 Solidity 最佳实践。
+功能完整性：
+实现所有要求的功能，包括 NFT 拍卖、价格计算和合约升级。
+测试覆盖率：
+编写全面的测试，覆盖所有功能。
+文档：
+提供详细的文档，包括项目结构、功能说明和部署步骤。
+
+提交内容
+代码：提交完整的 Hardhat 项目代码。
+测试报告：提交测试报告，包括测试覆盖率和测试结果。
+部署地址：提交部署到测试网的合约地址。
+文档：提交项目文档，包括功能说明和部署步骤。
+
+额外挑战（可选）
+动态手续费：根据拍卖金额动态调整手续费。
