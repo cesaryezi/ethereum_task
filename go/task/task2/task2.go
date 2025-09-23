@@ -56,15 +56,16 @@ func goroutine() {
 // 同时统计每个任务的执行时间。
 // 考察点 ：协程原理、并发任务调度。
 func taskScheduler(tasks []func()) {
-	var wg sync.WaitGroup
+	wg := sync.WaitGroup{}
+	wg.Add(len(tasks))
 	for _, task := range tasks {
-		wg.Add(1)
-		go func() {
-			defer wg.Done()
+		//wg.Add(1)
+		go func(wg2 *sync.WaitGroup) {
+			defer wg2.Done()
 			start := time.Now().Nanosecond()
 			task()
 			fmt.Printf("任务执行时间：%v\n", time.Now().Nanosecond()-start)
-		}()
+		}(&wg)
 	}
 	wg.Wait()
 }
