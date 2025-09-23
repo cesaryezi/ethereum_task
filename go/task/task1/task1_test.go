@@ -43,3 +43,21 @@ func TestTwoSum(t *testing.T) {
 	res := twoSum(strs, 20)
 	t.Log(res)
 }
+
+/*func FuzzTwoSum(f *testing.F) {
+	f.Add([]int{1, 2})
+	f.Fuzz(func(t *testing.T, num []int, target int) {
+
+		if len(num) == 0 {
+			return
+		}
+		for i := 0; i < len(num); i++ {
+			for j := i + 1; j < len(num); j++ {
+				if num[i]+num[j] == target {
+					return
+				}
+			}
+		}
+
+	})
+}*/
