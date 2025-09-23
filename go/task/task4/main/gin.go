@@ -9,6 +9,7 @@ import (
 func main() {
 
 	router := gin.Default()
+	router.Use(service.GlobalErrorHandler())
 
 	//注册
 	router.POST("/register", service.Register)

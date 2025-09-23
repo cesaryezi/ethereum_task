@@ -1,3 +1,4 @@
+// service/login_register.go
 package service
 
 import (
@@ -17,23 +18,14 @@ func Register(c *gin.Context) {
 	var userReq dto.UserReq
 
 	if err := c.ShouldBindJSON(&userReq); err != nil {
-		resp := dto.Resp[any]{
-			Code: http.StatusBadRequest,
-			Msg:  err.Error(),
-			Data: nil,
-		}
-		c.JSON(http.StatusOK, resp)
+		common.BadRequestError(c, err.Error())
 		return
 	}
+
 	// 加密密码
 	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(userReq.Password), bcrypt.DefaultCost)
 	if err != nil {
-		resp := dto.Resp[any]{
-			Code: http.StatusBadRequest,
-			Msg:  "Failed to hash password",
-			Data: nil,
-		}
-		c.JSON(http.StatusOK, resp)
+		common.InternalServerError(c, "Failed to hash password")
 		return
 	}
 	userReq.Password = string(hashedPassword)
@@ -45,14 +37,10 @@ func Register(c *gin.Context) {
 	}
 
 	if err := repository.Register(user); err != nil {
-		resp := dto.Resp[any]{
-			Code: http.StatusBadRequest,
-			Msg:  "Failed to create user",
-			Data: nil,
-		}
-		c.JSON(http.StatusOK, resp)
+		common.BadRequestError(c, "Failed to create user")
 		return
 	}
+
 	user.Password = ""
 	c.JSON(http.StatusOK, dto.NewRespWithSuccessData(user))
 }
@@ -60,13 +48,7 @@ func Register(c *gin.Context) {
 func Login(c *gin.Context) {
 	var userReq dto.UserReq
 	if err := c.ShouldBindJSON(&userReq); err != nil {
-
-		resp := dto.Resp[any]{
-			Code: http.StatusBadRequest,
-			Msg:  err.Error(),
-			Data: nil,
-		}
-		c.JSON(http.StatusOK, resp)
+		common.BadRequestError(c, err.Error())
 		return
 	}
 
@@ -74,12 +56,7 @@ func Login(c *gin.Context) {
 	var err error
 
 	if storedUser, err = repository.Login(userReq.UserName, userReq.Password); err != nil {
-		resp := dto.Resp[any]{
-			Code: http.StatusBadRequest,
-			Msg:  "Invalid username or password",
-			Data: nil,
-		}
-		c.JSON(http.StatusOK, resp)
+		common.UnauthorizedError(c, "Invalid username or password")
 		return
 	}
 
@@ -92,15 +69,9 @@ func Login(c *gin.Context) {
 
 	tokenString, err := token.SignedString([]byte(common.JwtSecret))
 	if err != nil {
-		resp := dto.Resp[any]{
-			Code: http.StatusBadRequest,
-			Msg:  "Failed to generate token",
-			Data: nil,
-		}
-		c.JSON(http.StatusOK, resp)
+		common.InternalServerError(c, "Failed to generate token")
 		return
 	}
 
 	c.JSON(http.StatusOK, dto.NewRespWithSuccessData("Bearer "+tokenString))
-
 }
