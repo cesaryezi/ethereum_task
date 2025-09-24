@@ -3,11 +3,12 @@ pragma solidity ^0.8.30;
 
 import {Ownable} from "@openzeppelin/contracts/access/Ownable.sol";
 import {ERC721} from "@openzeppelin/contracts/token/ERC721/ERC721.sol";
+import {ERC721Burnable} from "@openzeppelin/contracts/token/ERC721/extensions/ERC721Burnable.sol";
 import {ERC721Enumerable} from "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
 import {ERC721URIStorage} from "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 
-contract MyNFT is ERC721, ERC721Enumerable, ERC721URIStorage, Ownable {
-    string constant public METADATA_URI = "";
+contract MyNFT is ERC721, ERC721Enumerable, ERC721URIStorage, ERC721Burnable, Ownable {
+    string constant public METADATA_URI = "ipfs://QmfHrCeiFRVXYqiDrHeAYumuabkyAX5MTTs51LjuUeRf8n";
     uint256 private _nextTokenId;
 
     constructor(string memory tokenName, string memory tokenSymbol)
@@ -25,7 +26,6 @@ contract MyNFT is ERC721, ERC721Enumerable, ERC721URIStorage, Ownable {
         _setTokenURI(tokenId, METADATA_URI);
         return tokenId;
     }
-
 
     // The following functions are overrides required by Solidity.
 
