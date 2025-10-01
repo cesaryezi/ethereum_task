@@ -9,3 +9,11 @@ func TestQueryBlock(t *testing.T) {
 func TestDoTransaction(t *testing.T) {
 	doTransaction()
 }
+
+func TestCreateWallAddr(t *testing.T) {
+	createWallAddr()
+}
+
+func TestSubscribeBlock(t *testing.T) {
+	SubscribeBlock()
+}
