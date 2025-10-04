@@ -61,6 +61,9 @@ contract Voting {
 
     function resetVotes() private onlyOwner {
         //mapping中无法整体delete，可考虑使用数组，address[]遍历删除
+        //逐个删除，
+//        delete votes[address(this)];
+//        delete hasVoted[address(this)];
         emit ResetEvent();
     }
 
@@ -68,10 +71,6 @@ contract Voting {
         require(msg.sender == owner, "Only the owner can call this function");
         _;
     }
-
-
-
-
 
     //反转字符串
     function reverString(string memory _str) public pure returns (string memory) {
