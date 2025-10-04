@@ -252,6 +252,10 @@ func transferToken() {
 	//交易使用Keccak256进行hash
 	hash := sha3.NewLegacyKeccak256()
 	hash.Write(signatureStr)
+	//!!!!!!!!!!!!!!!!!!!!
+	//前面 4 个字节被称为“4-byte signature”，是某个函数签名的 Keccak 哈希值的前 4 个字节，作为该函数的唯一标识。
+	//后面跟的就是调用该函数需要提供的参数了，长度不定。
+	//举个例子：在部署完 A 合约后，调用 add(1)对应的 Input 数据是：
 	methodID := hash.Sum(nil)[:4] //111   transfer
 	//太坊 ABI 编码的要求，所有参数都需要是 32 字节的倍数
 	data := append(methodID, common.LeftPadBytes(tokenAddress_.Bytes(), 32)...) //111  address

@@ -59,11 +59,11 @@ contract Voting {
         return votes[_address];
     }
 
-    function resetVotes() private onlyOwner {
+    function resetVotes(address _voter) private onlyOwner {
         //mapping中无法整体delete，可考虑使用数组，address[]遍历删除
-        //逐个删除，
-//        delete votes[address(this)];
-//        delete hasVoted[address(this)];
+        //逐个删除，delete  键本身不会被移除，只是值被重置为默认值
+        delete votes[_voter];
+        delete hasVoted[_voter];
         emit ResetEvent();
     }
 
@@ -132,6 +132,14 @@ contract Voting {
             }
 
         }
+
+        // 不使用   tx.origin！！！！！！
+        //revert 是 Solidity 中用于 回退交易（transaction）并恢复状态 的一个关键字。
+        //它经常用于错误处理，当某些条件不满足时立即终止执行并返还剩余的 gas。
+
+        //避免数据溢出   ！！！！！！！！
+        addmod(1, 2, 10);// (1+2)%10
+        mulmod(2, 5, 5);// (2*5)%5
         return roman;
     }
 
